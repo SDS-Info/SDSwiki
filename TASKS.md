@@ -27,7 +27,7 @@
 
 ## 仕組み
 
-- `docs/courses.csv` を編集 → push するだけでサイトに自動反映
+- ルートの `courses.csv` / `guide.md` を編集 → push するだけでサイトに自動反映
+- `docs/` 内のデータファイルはルートへのシンボリックリンク（同期不要）
 - JavaScript がクライアント側で CSV を fetch してレンダリング
 - ビルドステップ不要
-- `docs/guide.md` も同様に自動反映
