@@ -681,14 +681,10 @@ a:hover {
   border-radius: 999px;
 }
 
-.card-cat.cat-sds,
-.modal-cat.cat-sds { background: var(--cat-sds); }
-.card-cat.cat-social,
-.modal-cat.cat-social { background: var(--cat-social); }
-.card-cat.cat-ds,
-.modal-cat.cat-ds { background: var(--cat-ds); }
-.card-cat.cat-pace,
-.modal-cat.cat-pace { background: var(--cat-pace); }
+.card-cat.cat-sds, .modal-cat.cat-sds { background: var(--cat-sds); }
+.card-cat.cat-social, .modal-cat.cat-social { background: var(--cat-social); }
+.card-cat.cat-ds, .modal-cat.cat-ds { background: var(--cat-ds); }
+.card-cat.cat-pace, .modal-cat.cat-pace { background: var(--cat-pace); }
 
 .card-kubun,
 .modal-kubun {
