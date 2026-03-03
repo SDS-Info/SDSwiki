@@ -12,6 +12,14 @@ const CAT_MAP = {
   'PACE': { key: 'pace', label: 'PACE' },
 };
 
+const KUBUN_MAP = {
+  '学部導入科目': { key: 'intro', label: '導入' },
+  '学部基礎科目': { key: 'basic', label: '基礎' },
+  '学部発展科目': { key: 'advanced', label: '発展' },
+  'ゼミ関連':     { key: 'seminar', label: 'ゼミ' },
+  '全学共通科目': { key: 'common', label: '共通' },
+};
+
 const GRADE_COLORS = {
   'A+': { cls: 'g-aplus', color: 'var(--grade-aplus)' },
   'A':  { cls: 'g-a',     color: 'var(--grade-a)' },
@@ -80,12 +88,25 @@ function createCard(course, index) {
   card.addEventListener('click', () => openModal(course));
 
   const catInfo = CAT_MAP[course['カテゴリ']] || { key: 'sds', label: course['カテゴリ'] };
+  const kubunInfo = KUBUN_MAP[course['科目区分']] || null;
 
-  // Category badge
+  // Badge row
+  const badgeRow = document.createElement('div');
+  badgeRow.className = 'card-badges';
+
   const badge = document.createElement('span');
   badge.className = `card-cat cat-${catInfo.key}`;
   badge.textContent = catInfo.label;
-  card.appendChild(badge);
+  badgeRow.appendChild(badge);
+
+  if (kubunInfo) {
+    const kubun = document.createElement('span');
+    kubun.className = `card-kubun kubun-${kubunInfo.key}`;
+    kubun.textContent = kubunInfo.label;
+    badgeRow.appendChild(kubun);
+  }
+
+  card.appendChild(badgeRow);
 
   // Name
   const name = document.createElement('div');
@@ -223,11 +244,15 @@ function initModal() {
 function openModal(course) {
   const body = document.getElementById('modal-body');
   const catInfo = CAT_MAP[course['カテゴリ']] || { key: 'sds', label: course['カテゴリ'] };
+  const kubunInfo = KUBUN_MAP[course['科目区分']] || null;
 
   let html = '';
 
-  // Category badge
+  // Category + Kubun badges
   html += `<span class="modal-cat cat-${catInfo.key}">${catInfo.label}</span>`;
+  if (kubunInfo) {
+    html += ` <span class="modal-kubun kubun-${kubunInfo.key}">${kubunInfo.label}</span>`;
+  }
 
   // Name
   html += `<h2 class="modal-name">${esc(course['授業名'])}</h2>`;

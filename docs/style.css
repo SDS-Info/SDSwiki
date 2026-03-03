@@ -13,6 +13,13 @@
   --cat-ds: #7c3aed;
   --cat-pace: #ea580c;
 
+  /* 科目区分色 */
+  --kubun-intro: #10b981;
+  --kubun-basic: #f59e0b;
+  --kubun-advanced: #ef4444;
+  --kubun-seminar: #ec4899;
+  --kubun-common: #6b7280;
+
   /* 成績分布色 */
   --grade-aplus: #1d4ed8;
   --grade-a: #059669;
@@ -210,6 +217,35 @@ a:hover { text-decoration: underline; }
 .card-cat.cat-social { background: var(--cat-social); }
 .card-cat.cat-ds { background: var(--cat-ds); }
 .card-cat.cat-pace { background: var(--cat-pace); }
+
+.card-badges {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.card-badges .card-cat {
+  margin-bottom: 0;
+}
+.card-kubun, .modal-kubun {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  border: 1.5px solid;
+  background: transparent;
+}
+.modal-kubun {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+.kubun-intro  { color: var(--kubun-intro);  border-color: var(--kubun-intro); }
+.kubun-basic    { color: var(--kubun-basic);    border-color: var(--kubun-basic); }
+.kubun-advanced { color: var(--kubun-advanced); border-color: var(--kubun-advanced); }
+.kubun-seminar  { color: var(--kubun-seminar);  border-color: var(--kubun-seminar); }
+.kubun-common   { color: var(--kubun-common);   border-color: var(--kubun-common); }
 
 .card-name {
   font-size: 1.05rem;
