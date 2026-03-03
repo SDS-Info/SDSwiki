@@ -4,27 +4,60 @@
 
 ## ファイル構成
 
-| ファイル | 説明 |
-|---------|------|
-| `guide.md` | ガイドブック本文（Markdown） |
-| `courses.csv` | 全科目データ（授業名・内容・開講日時・教員・評価基準・難易度・成績分布） |
-| `courses.md` | 科目データの Markdown テーブル版 |
-| `raw/` | 元データ（PDF・Word・CSV等） |
+```
+/
+├── docs/                  ← GitHub Pages サイト
+│   ├── index.html             ページ構造
+│   ├── style.css              デザイン・レスポンシブ
+│   ├── app.js                 CSV読み込み・描画・フィルタ・モーダル
+│   ├── courses.csv            科目データ（サイトのデータソース）
+│   ├── guide.md               履修ガイド本文
+│   └── .nojekyll              Jekyll 無効化
+├── raw/                   ← 元データ
+│   ├── SDS履修ガイドブック2025ver1.2.pdf
+│   ├── 履修ガイドブック草稿20260220.docx
+│   ├── courses_2026.csv       2026年度の科目データ
+│   └── grades_2024.csv        2024年度の成績分布
+├── courses.md             ← 科目データ Markdown テーブル版
+├── courses.csv            ← 科目データ CSV（docs/ と同期）
+├── changelog.md           ← 変更履歴
+├── TASKS.md               ← タスク管理
+└── README.md
+```
 
-### `raw/` の中身
+## GitHub Pages サイト
 
-| ファイル | 説明 |
-|---------|------|
-| `SDS履修ガイドブック2025ver1.2.pdf` | 前年度版の完成 PDF |
-| `履修ガイドブック草稿20260220.docx` | 2026年度版の草稿 |
-| `courses_2026.csv` | 2026年度の科目データ（更新作業用） |
-| `grades_2024.csv` | 2024年度の成績分布データ |
+**URL**: https://yossy1284.github.io/sdsinfo/
+
+`docs/courses.csv` や `docs/guide.md` を編集して push するだけでサイトに自動反映。ビルド不要。
+
+### サイト構造
+
+```
+index.html
+├── ヘッダー          … タイトル「SDS 履修ガイドブック 2026」+ ナビ
+├── 科目一覧セクション
+│   ├── フィルタバー   … キーワード検索 / カテゴリボタン / 学年セレクト
+│   └── カードグリッド  … courses.csv → カード描画
+│       └── カード     … カテゴリバッジ, 授業名, 日時, 教員, 難易度, 成績ミニバー
+│           └── クリック → モーダル（詳細 + 成績分布グラフ）
+├── 履修ガイド        … guide.md → Markdown パース → HTML
+└── フッター          … 免責事項・連絡先
+```
+
+### データの流れ
+
+```
+docs/courses.csv  ──fetch──→  app.js  ──render──→  科目カード + モーダル
+docs/guide.md     ──fetch──→  app.js  ──parse───→  履修ガイドセクション
+```
 
 ## 編集の流れ
 
-1. `raw/` 内の元データ（科目一覧・成績分布等）をもとに `courses.csv` を更新
-2. `guide.md` で本文テキストを編集
-3. 最終的にデザインツールで PDF に組版
+1. `docs/courses.csv` を編集（科目情報の追加・変更）
+2. `docs/guide.md` で本文テキストを編集
+3. push → GitHub Pages に自動反映
+4. 必要に応じて `courses.md`・ルートの `courses.csv` も同期
 
 ---
 
