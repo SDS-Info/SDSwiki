@@ -13,10 +13,10 @@
   --accent: #4f545e;
   --accent-soft: #f4efaf;
 
-  --cat-sds: #7654b4;
-  --cat-social: #cd873d;
-  --cat-ds: #3a72bd;
-  --cat-pace: #c44a48;
+  --cat-sds: #7e57c2;
+  --cat-social: #f28c28;
+  --cat-ds: #2f80ed;
+  --cat-pace: #e53935;
 
   --kubun-intro: #15803d;
   --kubun-basic: #0f766e;
@@ -681,10 +681,14 @@ a:hover {
   border-radius: 999px;
 }
 
-.card-cat.cat-sds { background: var(--cat-sds); }
-.card-cat.cat-social { background: var(--cat-social); }
-.card-cat.cat-ds { background: var(--cat-ds); }
-.card-cat.cat-pace { background: var(--cat-pace); }
+.card-cat.cat-sds,
+.modal-cat.cat-sds { background: var(--cat-sds); }
+.card-cat.cat-social,
+.modal-cat.cat-social { background: var(--cat-social); }
+.card-cat.cat-ds,
+.modal-cat.cat-ds { background: var(--cat-ds); }
+.card-cat.cat-pace,
+.modal-cat.cat-pace { background: var(--cat-pace); }
 
 .card-kubun,
 .modal-kubun {
