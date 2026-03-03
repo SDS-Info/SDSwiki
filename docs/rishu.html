@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>履修情報 | SDS情報ポータル</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand-block">
+        <p class="brand-kicker">SDS INFO PORTAL</p>
+        <p class="brand-title">履修情報</p>
+      </div>
+      <nav class="topbar-menu">
+        <a class="topnav-link" href="https://x.com/SDS_info2024" target="_blank" rel="noopener noreferrer">公式X</a>
+        <a class="topnav-link" href="https://www.sds.hit-u.ac.jp/" target="_blank" rel="noopener noreferrer">学部公式</a>
+        <a class="topnav-link" href="https://cels.hit-u.ac.jp/" target="_blank" rel="noopener noreferrer">CELS</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container wiki-layout">
+    <aside class="wiki-sidebar">
+      <p class="sidebar-title">目次</p>
+      <nav class="sidebar-nav">
+        <a href="#overview" class="nav-link active">概要</a>
+        <a href="#guide" class="nav-link">履修ガイド本文</a>
+        <a href="#sources" class="nav-link">出典と注意事項</a>
+      </nav>
+    </aside>
+
+    <main class="wiki-main">
+      <section id="overview" class="section article-section">
+        <div class="article-head">
+          <h1 class="article-title">履修計画のための基礎情報</h1>
+          <p class="article-sub">制度・時間割・評価方式をまとめて確認できるページ</p>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-text">
+            <p>履修情報ページでは、年間スケジュール、授業形式、単位計算、CAP制限、カリキュラム構造など、履修登録前に押さえるべき基礎情報をまとめています。</p>
+            <p>科目単位での検索や比較は <a href="courses.html">科目ページ</a> で行えます。</p>
+          </div>
+          <aside class="infobox" aria-label="ページ情報">
+            <h2 class="infobox-title">ページ情報</h2>
+            <dl class="infobox-list">
+              <dt>ページ種別</dt>
+              <dd>履修ガイド</dd>
+              <dt>主な用途</dt>
+              <dd>履修計画の確認</dd>
+              <dt>データ元</dt>
+              <dd>guide.md</dd>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section id="guide" class="section section-guide article-section">
+        <h2 class="section-title">履修ガイド本文</h2>
+        <div class="guide-content" id="guide-content">
+          <p class="loading">読み込み中…</p>
+        </div>
+      </section>
+
+      <section id="sources" class="section article-section">
+        <h2 class="section-title">出典と注意事項</h2>
+        <ul class="source-list">
+          <li>本ページは学生有志による非公式資料です。</li>
+          <li>正確な情報は必ず CELS シラバス、学士課程ガイドブック、学部公式案内を参照してください。</li>
+          <li>誤りや更新依頼は <a href="https://x.com/SDS_info2024" target="_blank" rel="noopener noreferrer">@SDS_info2024</a> へ連絡してください。</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>本ページは学生有志が作成した非公式資料です。最終確認は公式情報で行ってください。</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

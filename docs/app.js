@@ -32,13 +32,27 @@ const HEADERS = ['カテゴリ','授業名','授業内容','開講日時','担�
 
 /* ========== Init ========== */
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadCourses();
-  initFilters();
-  renderCourses(allCourses);
-  initModal();
+  if (hasCourseIndex()) {
+    await loadCourses();
+    initFilters();
+    renderCourses(allCourses);
+    initModal();
+  }
+
+  if (hasGuideSection()) {
+    loadGuide();
+  }
+
   initNav();
-  loadGuide();
 });
+
+function hasCourseIndex() {
+  return Boolean(document.getElementById('card-grid'));
+}
+
+function hasGuideSection() {
+  return Boolean(document.getElementById('guide-content'));
+}
 
 /* ========== CSV Loading ========== */
 async function loadCourses() {
@@ -47,7 +61,10 @@ async function loadCourses() {
     const text = await res.text();
     allCourses = parseCSV(text);
   } catch (e) {
-    document.getElementById('card-grid').innerHTML = '<p class="loading">データの読み込みに失敗しました。</p>';
+    const grid = document.getElementById('card-grid');
+    if (grid) {
+      grid.innerHTML = '<p class="loading">データの読み込みに失敗しました。</p>';
+    }
   }
 }
 
@@ -85,6 +102,7 @@ function renderCourses(courses) {
 function createCard(course, index) {
   const card = document.createElement('div');
   card.className = 'card';
+  card.style.setProperty('--stagger', `${Math.min(index * 0.02, 0.24)}s`);
   card.addEventListener('click', () => openModal(course));
 
   const catInfo = CAT_MAP[course['カテゴリ']] || { key: 'sds', label: course['カテゴリ'] };
@@ -174,6 +192,8 @@ function createDots(label, value) {
 function initFilters() {
   // Category buttons
   const container = document.getElementById('category-filters');
+  if (!container) return;
+
   Object.entries(CAT_MAP).forEach(([fullName, info]) => {
     const btn = document.createElement('button');
     btn.className = 'cat-btn';
@@ -194,6 +214,8 @@ function initFilters() {
 
   // Search
   const searchInput = document.getElementById('search');
+  if (!searchInput) return;
+
   let timer;
   searchInput.addEventListener('input', () => {
     clearTimeout(timer);
@@ -204,7 +226,10 @@ function initFilters() {
   });
 
   // Kubun filter
-  document.getElementById('kubun-filter').addEventListener('change', (e) => {
+  const kubunSelect = document.getElementById('kubun-filter');
+  if (!kubunSelect) return;
+
+  kubunSelect.addEventListener('change', (e) => {
     kubunFilter = e.target.value;
     applyFilters();
   });
@@ -232,7 +257,10 @@ function applyFilters() {
 /* ========== Modal ========== */
 function initModal() {
   const overlay = document.getElementById('modal-overlay');
-  document.getElementById('modal-close').addEventListener('click', closeModal);
+  const closeButton = document.getElementById('modal-close');
+  if (!overlay || !closeButton) return;
+
+  closeButton.addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) closeModal();
   });
@@ -243,6 +271,9 @@ function initModal() {
 
 function openModal(course) {
   const body = document.getElementById('modal-body');
+  const overlay = document.getElementById('modal-overlay');
+  if (!body || !overlay) return;
+
   const catInfo = CAT_MAP[course['カテゴリ']] || { key: 'sds', label: course['カテゴリ'] };
   const kubunInfo = KUBUN_MAP[course['科目区分']] || null;
 
@@ -309,12 +340,14 @@ function openModal(course) {
   }
 
   body.innerHTML = html;
-  document.getElementById('modal-overlay').classList.add('open');
+  overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
+  const overlay = document.getElementById('modal-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
   document.body.style.overflow = '';
 }
 
@@ -334,7 +367,10 @@ function esc(str) {
 
 /* ========== Navigation ========== */
 function initNav() {
-  const links = document.querySelectorAll('.nav-link');
+  const links = Array.from(document.querySelectorAll('.nav-link'))
+    .filter(link => (link.getAttribute('href') || '').startsWith('#'));
+  if (links.length === 0) return;
+
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -348,7 +384,11 @@ function initNav() {
   });
 
   // IntersectionObserver for active nav
-  const sections = document.querySelectorAll('.section');
+  const sections = Array.from(document.querySelectorAll('.section'))
+    .filter(section => links.some(link => link.getAttribute('href') === `#${section.id}`));
+
+  if (sections.length === 0) return;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -367,9 +407,15 @@ async function loadGuide() {
   try {
     const res = await fetch('./guide.md');
     const md = await res.text();
-    document.getElementById('guide-content').innerHTML = parseMarkdown(md);
+    const guideContent = document.getElementById('guide-content');
+    if (guideContent) {
+      guideContent.innerHTML = parseMarkdown(md);
+    }
   } catch (e) {
-    document.getElementById('guide-content').innerHTML = '<p>ガイドの読み込みに失敗しました。</p>';
+    const guideContent = document.getElementById('guide-content');
+    if (guideContent) {
+      guideContent.innerHTML = '<p>ガイドの読み込みに失敗しました。</p>';
+    }
   }
 }
 
@@ -452,7 +498,8 @@ function parseMarkdown(md) {
 }
 
 function inline(text) {
-  return text
+  const safe = esc(text);
+  return safe
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
