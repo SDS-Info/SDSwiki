@@ -1365,4 +1365,23 @@ a:hover {
   .modal {
     padding: 1.2rem;
   }
+
+  .modal-info {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .modal-info dt {
+    margin-top: 0.45rem;
+    font-weight: 700;
+  }
+
+  .field-desc-list {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .field-desc-list dt {
+    margin-top: 0.55rem;
+  }
 }
