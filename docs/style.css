@@ -991,7 +991,8 @@ a:hover {
 .zemi-spectrum-wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  padding: 0 12px;
 }
 
 .zemi-spectrum-end {
@@ -1009,9 +1010,16 @@ a:hover {
   flex: 1;
   height: 10px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--zemi-zemi), var(--zemi-mid) 50%, var(--zemi-lab));
-  opacity: 0.3;
+  background: linear-gradient(90deg, rgba(5,150,105,0.3), rgba(202,138,4,0.3) 50%, rgba(29,78,216,0.3));
 }
+
+.zemi-spectrum-end.active {
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.zemi-spectrum-end.left.active { color: var(--zemi-zemi); }
+.zemi-spectrum-end.right.active { color: var(--zemi-lab); }
 
 .zemi-spectrum-marker {
   position: absolute;
@@ -1020,11 +1028,13 @@ a:hover {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--text);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  border: 2.5px solid #fff;
   z-index: 1;
 }
+
+.zemi-spectrum-marker.marker-zemi { background: var(--zemi-zemi); }
+.zemi-spectrum-marker.marker-mid  { background: var(--zemi-mid); }
+.zemi-spectrum-marker.marker-lab  { background: var(--zemi-lab); }
 
 .zemi-spectrum-marker-label {
   position: absolute;

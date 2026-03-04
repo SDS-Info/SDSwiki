@@ -583,14 +583,18 @@ function openZemiModal(zemi) {
       // 形態 bar
       if (keitai) {
         const pos = keitai === 'ゼミ' ? 0 : keitai === '中間' ? 50 : 100;
+        const markerCls = keitai === 'ゼミ' ? 'marker-zemi' : keitai === '中間' ? 'marker-mid' : 'marker-lab';
+        const leftActive = keitai === 'ゼミ' ? ' active' : '';
+        const rightActive = keitai === '研究室' ? ' active' : '';
+        const showLabel = keitai === '中間' ? `<span class="zemi-spectrum-marker-label">${esc(keitai)}</span>` : '';
         html += '<div class="zemi-bar-item">';
         html += '<div class="zemi-bar-label">形態</div>';
         html += '<div class="zemi-spectrum-wrap">';
-        html += '<span class="zemi-spectrum-end left">ゼミ</span>';
+        html += `<span class="zemi-spectrum-end left${leftActive}">ゼミ</span>`;
         html += '<div class="zemi-spectrum-bar">';
-        html += `<div class="zemi-spectrum-marker" style="left:${pos}%"><span class="zemi-spectrum-marker-label">${esc(keitai)}</span></div>`;
+        html += `<div class="zemi-spectrum-marker ${markerCls}" style="left:${pos}%">${showLabel}</div>`;
         html += '</div>';
-        html += '<span class="zemi-spectrum-end right">研究室</span>';
+        html += `<span class="zemi-spectrum-end right${rightActive}">研究室</span>`;
         html += '</div>';
         html += '</div>';
       }
