@@ -543,8 +543,9 @@ function openZemiModal(zemi) {
 
   // Student info section
   const studentFields = [
+    ['形態', zemi['"研究室"or"ゼミ"']],
     ['活動時間（週）', zemi['活動時間_週'] ? zemi['活動時間_週'] + ' 時間' : ''],
-    ['院進検討率', zemi['院進検討率']],
+    ['新B4の院進検討率', zemi['院進検討率']],
     ['新B4の人数', zemi['新B4の人数'] ? zemi['新B4の人数'] + '人' : ''],
     ['3年次の内容', zemi['3年次の内容']],
     ['取っておいた方がいい授業', zemi['取っておいた方がいい授業']],

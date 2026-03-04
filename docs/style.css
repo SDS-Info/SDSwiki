@@ -1034,6 +1034,26 @@ a:hover {
   background: #f7f4ce;
 }
 
+.field-desc-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem 1.1rem;
+  font-size: 0.92rem;
+  margin-top: 1rem;
+}
+
+.field-desc-list dt {
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+
+.field-desc-list dd {
+  margin: 0;
+  line-height: 1.6;
+}
+
 .source-list {
   margin-left: 1.15rem;
   display: grid;
