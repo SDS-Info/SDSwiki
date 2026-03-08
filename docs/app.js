@@ -40,7 +40,13 @@ const GRADE_COLORS = {
   'F':  { cls: 'g-f',     color: 'var(--grade-f)' },
 };
 
-const HEADERS = ['カテゴリ','授業名','授業内容','開講日時','担当教員','評価基準','難易度_単位','難易度_成績','A+','A','B','C','F','科目区分'];
+const HEADERS = ['カテゴリ','授業名','授業内容','開講日時','担当教員','評価基準','難易度_単位','難易度_成績','A+','A','B','C','F','科目区分','教員変更','自動登録','抽選'];
+
+const FLAG_DEFS = [
+  { key: '教員変更', label: '教員変更', cls: 'flag-teacher' },
+  { key: '自動登録', label: '自動登録', cls: 'flag-auto' },
+  { key: '抽選',     label: '抽選',     cls: 'flag-lottery' },
+];
 
 /* ========== Init ========== */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -212,6 +218,20 @@ function createCard(course, index) {
     card.appendChild(diffRow);
   }
 
+  // Flag tags
+  const activeFlags = FLAG_DEFS.filter(f => course[f.key] === '1');
+  if (activeFlags.length > 0) {
+    const flagRow = document.createElement('div');
+    flagRow.className = 'card-flags';
+    activeFlags.forEach(f => {
+      const tag = document.createElement('span');
+      tag.className = `card-flag ${f.cls}`;
+      tag.textContent = f.label;
+      flagRow.appendChild(tag);
+    });
+    card.appendChild(flagRow);
+  }
+
   // Mini grade bar
   const grades = ['A+','A','B','C','F'].map(k => parseFloat(course[k]) || 0);
   if (grades.some(v => v > 0)) {
@@ -337,6 +357,13 @@ function openModal(course) {
   if (kubunInfo) {
     html += ` <span class="modal-kubun kubun-${kubunInfo.key}">${kubunInfo.label}</span>`;
   }
+
+  // Flag badges
+  FLAG_DEFS.forEach(f => {
+    if (course[f.key] === '1') {
+      html += ` <span class="modal-flag ${f.cls}">${f.label}</span>`;
+    }
+  });
 
   // Name
   html += `<h2 class="modal-name">${esc(course['授業名'])}</h2>`;
