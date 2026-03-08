@@ -1187,6 +1187,35 @@ a:hover {
   background: #f7f4ce;
 }
 
+.guide-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 0.9rem 0;
+}
+
+.image-grid figure {
+  margin: 0;
+}
+
+.image-grid figure img {
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .field-desc-list {
   display: grid;
   grid-template-columns: auto 1fr;

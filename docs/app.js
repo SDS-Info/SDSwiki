@@ -62,6 +62,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadGuide();
   }
 
+  if (hasPlanSection()) {
+    loadPlan();
+  }
+
   initNav();
   initHamburger();
 });
@@ -76,6 +80,10 @@ function hasZemiIndex() {
 
 function hasGuideSection() {
   return Boolean(document.getElementById('guide-content'));
+}
+
+function hasPlanSection() {
+  return Boolean(document.getElementById('plan-content'));
 }
 
 /* ========== CSV Loading ========== */
@@ -785,6 +793,23 @@ function initNav() {
   sections.forEach(s => observer.observe(s));
 }
 
+/* ========== Plan.md ========== */
+async function loadPlan() {
+  try {
+    const res = await fetch('./plan.md');
+    const md = await res.text();
+    const planContent = document.getElementById('plan-content');
+    if (planContent) {
+      planContent.innerHTML = parseMarkdown(md);
+    }
+  } catch (e) {
+    const planContent = document.getElementById('plan-content');
+    if (planContent) {
+      planContent.innerHTML = '<p>プランの読み込みに失敗しました。</p>';
+    }
+  }
+}
+
 /* ========== Guide.md ========== */
 async function loadGuide() {
   try {
@@ -837,6 +862,25 @@ function parseMarkdown(md) {
       continue;
     }
 
+    // Image grid - collect consecutive image-only lines
+    if (line.match(/^!\[.*\]\(.+\)$/)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const images = [];
+      while (i < lines.length && lines[i].match(/^!\[.*\]\(.+\)$/)) {
+        images.push(lines[i]);
+        i++;
+      }
+      i--; // back up one
+      if (images.length >= 2) {
+        html += '<div class="image-grid">';
+        images.forEach(img => { html += `<figure>${inline(img)}</figure>`; });
+        html += '</div>';
+      } else {
+        html += `<p>${inline(images[0])}</p>`;
+      }
+      continue;
+    }
+
     // Blockquote
     if (line.startsWith('> ')) {
       if (inList) { html += '</ul>'; inList = false; }
@@ -886,6 +930,7 @@ function inline(text) {
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/!\[([^\]]*)\]\((.+?)\)/g, '<img src="$2" alt="$1">')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>');
 }
 
