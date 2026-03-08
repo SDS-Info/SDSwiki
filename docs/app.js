@@ -48,6 +48,11 @@ const FLAG_DEFS = [
   { key: '抽選',     label: '抽選',     cls: 'flag-lottery' },
 ];
 
+/* ========== Column State ========== */
+let allColumns = [];
+let columnSearchQuery = '';
+let activeColumnTags = new Set();
+
 /* ========== Init ========== */
 document.addEventListener('DOMContentLoaded', async () => {
   if (hasCourseIndex()) {
@@ -72,8 +77,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadPlan();
   }
 
+  if (hasColumnIndex()) {
+    await loadColumns();
+    initColumnFilters();
+    renderColumns(allColumns);
+  }
+
   initNav();
   initHamburger();
+  initDropdown();
 });
 
 function hasCourseIndex() {
@@ -90,6 +102,10 @@ function hasGuideSection() {
 
 function hasPlanSection() {
   return Boolean(document.getElementById('plan-content'));
+}
+
+function hasColumnIndex() {
+  return Boolean(document.getElementById('column-grid'));
 }
 
 /* ========== CSV Loading ========== */
@@ -783,6 +799,22 @@ function initHamburger() {
   });
 }
 
+/* ========== Nav Dropdown ========== */
+function initDropdown() {
+  const dropdown = document.querySelector('.nav-dropdown');
+  const toggle = document.querySelector('.nav-dropdown-toggle');
+  if (!dropdown || !toggle) return;
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => {
+    dropdown.classList.remove('open');
+  });
+}
+
 /* ========== Navigation ========== */
 function initNav() {
   const links = Array.from(document.querySelectorAll('.nav-link'))
@@ -972,4 +1004,142 @@ function renderTable(lines) {
   });
   html += '</table>';
   return html;
+}
+
+/* ========== Column Loading ========== */
+async function loadColumns() {
+  try {
+    const res = await fetch('./columns.json');
+    allColumns = await res.json();
+    // Sort by date descending
+    allColumns.sort((a, b) => b.date.localeCompare(a.date));
+  } catch (e) {
+    const grid = document.getElementById('column-grid');
+    if (grid) grid.innerHTML = '<p class="loading">記事の読み込みに失敗しました。</p>';
+  }
+}
+
+/* ========== Column Rendering ========== */
+function renderColumns(columns) {
+  const grid = document.getElementById('column-grid');
+  const count = document.getElementById('column-count');
+
+  if (allColumns.length === 0) {
+    grid.innerHTML = '<p class="loading">まだ記事がありません。</p>';
+    count.textContent = '';
+    return;
+  }
+
+  if (columns.length === 0) {
+    grid.innerHTML = '<p class="loading">該当する記事がありません。</p>';
+    count.textContent = '';
+    return;
+  }
+
+  count.textContent = allColumns.length === columns.length
+    ? `${columns.length} 記事`
+    : `${allColumns.length} 記事中 ${columns.length} 件表示`;
+
+  grid.innerHTML = '';
+  columns.forEach((col, i) => grid.appendChild(createColumnCard(col, i)));
+}
+
+function createColumnCard(col, index) {
+  const card = document.createElement('a');
+  card.className = 'card column-card';
+  card.href = `columns/${col.id}.html`;
+  card.style.setProperty('--stagger', `${Math.min(index * 0.02, 0.24)}s`);
+
+  // Tags
+  if (col.tags && col.tags.length > 0) {
+    const badgeRow = document.createElement('div');
+    badgeRow.className = 'card-badges';
+    col.tags.forEach(tag => {
+      const badge = document.createElement('span');
+      badge.className = 'card-cat column-tag';
+      badge.textContent = tag;
+      badgeRow.appendChild(badge);
+    });
+    card.appendChild(badgeRow);
+  }
+
+  // Title
+  const title = document.createElement('div');
+  title.className = 'card-name';
+  title.textContent = col.title;
+  card.appendChild(title);
+
+  // Summary
+  if (col.summary) {
+    const summary = document.createElement('div');
+    summary.className = 'card-meta';
+    summary.textContent = col.summary;
+    card.appendChild(summary);
+  }
+
+  // Footer: date + author
+  const footer = document.createElement('div');
+  footer.className = 'column-card-footer';
+  footer.innerHTML = `<time class="column-card-date">${col.date}</time>`;
+  if (col.author) {
+    footer.innerHTML += `<span class="column-card-author">${esc(col.author)}</span>`;
+  }
+  card.appendChild(footer);
+
+  return card;
+}
+
+/* ========== Column Filters ========== */
+function initColumnFilters() {
+  // Collect all unique tags
+  const tagSet = new Set();
+  allColumns.forEach(col => {
+    if (col.tags) col.tags.forEach(t => tagSet.add(t));
+  });
+
+  const container = document.getElementById('column-tag-filters');
+  if (container && tagSet.size > 0) {
+    Array.from(tagSet).sort().forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'cat-btn';
+      btn.textContent = tag;
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        if (activeColumnTags.has(tag)) {
+          activeColumnTags.delete(tag);
+        } else {
+          activeColumnTags.add(tag);
+        }
+        applyColumnFilters();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  const searchInput = document.getElementById('column-search');
+  if (!searchInput) return;
+
+  let timer;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      columnSearchQuery = searchInput.value;
+      applyColumnFilters();
+    }, 200);
+  });
+}
+
+function applyColumnFilters() {
+  const filtered = allColumns.filter(col => {
+    if (activeColumnTags.size > 0) {
+      if (!col.tags || !col.tags.some(t => activeColumnTags.has(t))) return false;
+    }
+    if (columnSearchQuery) {
+      const q = columnSearchQuery.toLowerCase();
+      const haystack = (col.title + (col.summary || '') + (col.author || '') + (col.tags || []).join(' ')).toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    return true;
+  });
+  renderColumns(filtered);
 }

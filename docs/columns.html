@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>履修プラン | SDS情報ポータル</title>
+  <title>コラム | SDS情報ポータル</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -48,50 +48,31 @@
       <p class="sidebar-title">目次</p>
       <nav class="sidebar-nav">
         <a href="#overview" class="nav-link active">概要</a>
-        <a href="#plan" class="nav-link">履修プラン本文</a>
-        <a href="#sources" class="nav-link">出典と注意事項</a>
+        <a href="#column-list" class="nav-link">記事一覧</a>
       </nav>
     </aside>
 
     <main class="wiki-main">
       <section id="overview" class="section article-section">
         <div class="article-head">
-          <h1 class="article-title">履修プラン・時間割モデル</h1>
-          <p class="article-sub">学年別の履修選択アドバイスと時間割の参考例</p>
+          <h1 class="article-title">コラム</h1>
+          <p class="article-sub">SDS情報局メンバーが書く、履修・学生生活に役立つTipsや情報をまとめたコラム記事</p>
         </div>
-        <div class="intro-grid">
-          <div class="intro-text">
-            <p>各学年でどの科目を選ぶべきか、編集部の視点でまとめた履修選択のポイントと、実際の時間割モデルを掲載しています。</p>
-            <p>制度やカリキュラムの詳細は <a href="rishu.html">履修情報</a> を、科目ごとの検索は <a href="courses.html">授業検索</a> で行えます。</p>
+      </section>
+
+      <section id="column-list" class="section article-section">
+        <h2 class="section-title">記事一覧</h2>
+        <div class="filter-bar">
+          <input type="text" class="search-input" id="column-search" placeholder="記事を検索…">
+          <div class="filter-group">
+            <span class="filter-label">タグ</span>
+            <div class="category-filters" id="column-tag-filters"></div>
           </div>
-          <aside class="infobox" aria-label="ページ情報">
-            <h2 class="infobox-title">ページ情報</h2>
-            <dl class="infobox-list">
-              <dt>ページ種別</dt>
-              <dd>履修プラン</dd>
-              <dt>主な用途</dt>
-              <dd>履修選択の参考</dd>
-              <dt>データ元</dt>
-              <dd>plan.md</dd>
-            </dl>
-          </aside>
         </div>
-      </section>
-
-      <section id="plan" class="section section-guide article-section">
-        <h2 class="section-title">履修プラン本文</h2>
-        <div class="guide-content" id="plan-content">
-          <p class="loading">読み込み中…</p>
+        <p class="result-count" id="column-count"></p>
+        <div class="column-grid" id="column-grid">
+          <p class="loading">記事を読み込み中…</p>
         </div>
-      </section>
-
-      <section id="sources" class="section article-section">
-        <h2 class="section-title">出典と注意事項</h2>
-        <ul class="source-list">
-          <li>本ページは学生有志による非公式資料です。内容には編集部の主観が含まれます。</li>
-          <li>正確な情報は必ず CELS シラバス、学士課程ガイドブック、学部公式案内を参照してください。</li>
-          <li>誤りや更新依頼は <a href="https://x.com/SDS_info2024" target="_blank" rel="noopener noreferrer">@SDS_info2024</a> へ連絡してください。</li>
-        </ul>
       </section>
     </main>
   </div>
@@ -101,7 +82,6 @@
       <p>本ページは学生有志が作成した非公式資料です。最終確認は公式情報で行ってください。</p>
     </div>
   </footer>
-
   <script src="app.js"></script>
 </body>
 </html>
