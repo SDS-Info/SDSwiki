@@ -16,8 +16,8 @@ const ZEMI_FIELD_MAP = {
 
 let activeZemiFields = new Set();
 
-/* ========== 志望者数速報 (3/18 23:35〜23:45時点) ========== */
-const ZEMI_APPLICANTS = {
+/* ========== 1次志望者数（3/18 23:35〜23:45時点） ========== */
+const ZEMI_ASPIRANTS = {
   '七丈直弘': 4,
   '福田玄明': 8,
   '今井晋': 1,
@@ -30,6 +30,28 @@ const ZEMI_APPLICANTS = {
   '植松良公': 6,
   '加藤諒': 8,
   '欅惇志': 6,
+  '清水千弘': 8,
+  '城田慎一郎': 0,
+  '永山晋': 1,
+  '坂野遼平': 4,
+  '本武陽一': 1,
+  '谷田川達也': 1,
+};
+
+/* ========== 1次選考合格者数 ========== */
+const ZEMI_APPLICANTS = {
+  '七丈直弘': 4,
+  '福田玄明': 8,
+  '今井晋': 1,
+  '小町守': 2,
+  '鈴木真介': 5,
+  '寺田麻佑': 1,
+  '檜山敦': 0,
+  '渡部敏明': 0,
+  'WOO YU JIN': 1,
+  '植松良公': 6,
+  '加藤諒': 8,
+  '欅惇志': 5,
   '清水千弘': 8,
   '城田慎一郎': 0,
   '永山晋': 1,
@@ -585,11 +607,19 @@ function createZemiCard(zemi, index) {
     statsRow.appendChild(cap);
   }
 
+  const aspirants = ZEMI_ASPIRANTS[zemi['教員名']];
+  if (aspirants != null) {
+    const aspStat = document.createElement('span');
+    aspStat.className = 'zemi-stat zemi-stat-applicants';
+    aspStat.textContent = '志望 ' + aspirants + '人';
+    statsRow.appendChild(aspStat);
+  }
+
   const applicants = ZEMI_APPLICANTS[zemi['教員名']];
   if (applicants != null) {
     const appStat = document.createElement('span');
-    appStat.className = 'zemi-stat zemi-stat-applicants';
-    appStat.textContent = '志望 ' + applicants + '人';
+    appStat.className = 'zemi-stat zemi-stat-passed';
+    appStat.textContent = '1次合格 ' + applicants + '人';
     statsRow.appendChild(appStat);
   }
 

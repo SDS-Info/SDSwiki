@@ -1042,6 +1042,12 @@ a:hover {
   font-weight: 700;
 }
 
+.zemi-stat-passed {
+  background: #d4edda;
+  color: #155724;
+  font-weight: 700;
+}
+
 .zemi-content-preview {
   margin-top: 0.35rem;
   font-size: 0.84rem;
