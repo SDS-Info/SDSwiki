@@ -14,5 +14,13 @@
     "tags": ["新入生向け", "パソコン"],
     "date": "2026-03-16",
     "author": "mimiとSDS情報局の仲間たち"
+  },
+  {
+    "id": "gemba-ai-challenge",
+    "title": "GEMBA AI Challenge｜学生向けAI活用ビジネスコンテスト案内",
+    "summary": "AIやデータサイエンスを学ぶ学生向けのビジネスコンテスト「GEMBA AI Challenge」の概要・日程・応募資格をまとめました",
+    "tags": ["イベント", "コンテスト", "AI"],
+    "date": "2026-09-28",
+    "author": "SDS情報局"
   }
 ]
