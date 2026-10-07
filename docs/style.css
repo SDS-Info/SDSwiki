@@ -1485,6 +1485,13 @@ a:hover {
   background: var(--accent);
 }
 
+.column-tag.tag-external,
+.column-article-tag.tag-external,
+.news-badge.external {
+  color: #fff;
+  background: var(--cat-sds);
+}
+
 .column-card-footer {
   display: flex;
   justify-content: space-between;
