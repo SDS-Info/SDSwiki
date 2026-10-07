@@ -1117,6 +1117,7 @@ function createColumnCard(col, index) {
     col.tags.forEach(tag => {
       const badge = document.createElement('span');
       badge.className = 'card-cat column-tag';
+      if (tag === '外部イベント') badge.classList.add('tag-external');
       badge.textContent = tag;
       badgeRow.appendChild(badge);
     });
