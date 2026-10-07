@@ -13,6 +13,8 @@
 
 👉 [公式サイトはこちら](https://bri-dge-ai.github.io/ai-business-contest-lp/)
 
+**主催**: GEMBA AI Grit（Bridge AI・Bashi.comの共同開催）
+
 ---
 
 ## 開催日程
